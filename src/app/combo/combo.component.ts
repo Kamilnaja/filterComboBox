@@ -24,7 +24,6 @@ export class ComboComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(): void {
-
   }
 
   ngOnDestroy(): void {
@@ -33,5 +32,16 @@ export class ComboComponent implements OnInit, OnChanges, OnDestroy {
 
   public get sportControl(): AbstractControl {
     return this.selectedSport;
+  }
+
+  public handleSubmit() {
+    console.log(this.selectedSport.value);
+  }
+
+  /*
+  ** get form value and returns object
+  */
+  public mapValueIntoObject(value: string): DictionaryValue {
+    return this.sportsList.find(item => item.value === value);
   }
 }
