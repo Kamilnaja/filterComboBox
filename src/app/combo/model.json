@@ -1,0 +1,14 @@
+[
+  {
+    "value": "football",
+    "description": "Piłka nożna"
+  },
+  {
+    "value": "soccer",
+    "description": "piłka nożna w usa"
+  },
+  {
+    "value": "tenis",
+    "description": "tenis dla dwóch osób"
+  }
+]

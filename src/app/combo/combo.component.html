@@ -1,0 +1,9 @@
+<ng-container>
+    <select name="select" id="select">
+      <option *ngFor="let item of sportsList" [value]="item.description" formGroup="sport">
+        {{item.description}}
+      </option>
+    </select>
+    <input type="text" [value]="sport.value">
+    {{sport.value}}
+</ng-container>
