@@ -1,14 +1,14 @@
 [
   {
-    "value": "football",
+    "value": "fb",
     "description": "Piłka nożna"
   },
   {
-    "value": "soccer",
+    "value": "pnwu",
     "description": "piłka nożna w usa"
   },
   {
-    "value": "tenis",
+    "value": "tn",
     "description": "tenis dla dwóch osób"
   }
 ]
