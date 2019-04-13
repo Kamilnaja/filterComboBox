@@ -1,0 +1,20 @@
+.option {
+  display: block;
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: lightblue;
+}
+
+.isVisible {
+  display: block;
+}
+
+.isNotVisible {
+  display: none;
+}
