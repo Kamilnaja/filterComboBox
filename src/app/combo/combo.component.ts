@@ -38,9 +38,6 @@ export class ComboComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.selectedSport.value);
   }
 
-  /*
-  ** get form value and returns object
-  */
   public mapValueIntoObject(value: string): DictionaryValue {
     return this.sportsList.find(item => item.value === value);
   }

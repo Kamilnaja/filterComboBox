@@ -1,10 +1,14 @@
 <ng-container>
-  <input type="text" [value]="mapValueIntoObject(sportControl.value)?.description">
-  <br />
-    <select name="select" id="select" [formControl]="selectedSport">
-      <option *ngFor="let item of sportsList" [value]="item.value">
-        {{item.description}}
-      </option>
-    </select>
-    <input type="submit" (click)="handleSubmit()">
-  </ng-container>
+  <div class="col-6">
+    <div class="form-group">
+      <input class="form-control" type="text" [value]="mapValueIntoObject(sportControl.value)?.description">
+      <select name="select" class="form-control" id="select" [formControl]="selectedSport">
+        <option *ngFor="let item of sportsList" [value]="item.value">
+          {{item.description}}
+        </option>
+      </select>
+    </div>
+    <br />
+    <input type="submit" (click)="handleSubmit()" class="btn btn-primary">
+  </div>
+</ng-container>
