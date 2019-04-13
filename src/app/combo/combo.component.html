@@ -2,11 +2,11 @@
   <div class="col-6">
     <div class="form-group">
       <input class="form-control" type="text"
-        (click)="toggleVisible()" (keydown)="expandSelect($event)" [formControl]="selectedSport" #input > <!-- todo - move fn to ts -->
+        (focus)="toggleVisible(true)" (keydown)="expandSelect($event)" [formControl]="selectedSport" #input [value]="getSelectedSport.value"> <!-- todo - move fn to ts -->
 
       <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
         <li *ngFor="let item of filterModel(); index as i" class="option" (click)="selectItem(item.description)" (keydown)="selectDown(i)">
-          <a href="#"> {{item.description}}</a>
+          <a href="#">{{item.description}}</a>
         </li>
       </ul>
     </div>
