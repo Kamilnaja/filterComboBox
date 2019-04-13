@@ -52,27 +52,27 @@ export class ComboComponent implements OnInit, OnChanges {
   }
 
   public selectItem(item: any) {
-    this.selectedItem = item;
     this.isOptionVisible = false;
-    this.selectedSport.setValue(this.selectedItem)
+    this.selectedSport.setValue(item)
   }
 
   public toggleVisible(val: boolean) {
     val ? this.isOptionVisible = true : this.isOptionVisible = false;
   }
   // todo - akcja, gdy klikniemy gdziekolwiek poza
-  // todo - gdy zjedziemy w dół z formularza, zaznacz pierwszy item
   public expandSelect(e) {
+    console.log(e.code);
+
     if (e.code === 'ArrowDown') {
       this.selectNext(Direction.down);
     } else if (e.code === 'ArrowUp')  {
       this.selectNext(Direction.up)
+    } else if (e.code === 'Enter') {
+      this.selectItem(this.filterModel[this.focusedIndex].description);
+      this.focusedIndex = 0;
+    } else {
+      this.filterModel;
     }
-
-    else {
-      this.filterModel()
-    }
-    //  todo - deal with enter
   }
 
   private selectNext(direction: Direction) {
@@ -81,19 +81,17 @@ export class ComboComponent implements OnInit, OnChanges {
     } else if (direction === Direction.up) {
       this.goUp();
     }
-    console.log(`focused : ${this.focusedIndex}`);
   }
 
   private goUp() {
-    this.focusedIndex > 0 ? this.focusedIndex-- : this.focusedIndex = 2;
+    this.focusedIndex > 0 ? this.focusedIndex-- : (this.focusedIndex = this.filterModel.length - 1);
   }
 
   private goDown() {
-    this.focusedIndex < this.sportsListsCopy.length - 1 ? this.focusedIndex++ : this.focusedIndex = 0;
+    this.focusedIndex < this.filterModel.length - 1 ? this.focusedIndex++ : this.focusedIndex = 0;
   }
 
-// todo - select on enter
-  public filterModel(): DictionaryValue[] {
+  public get filterModel(): DictionaryValue[] {
     let val = this.getSelectedSport.value
     return this.sportsListsCopy
       .filter((item: DictionaryValue) => item.description.toLowerCase().startsWith(val.toLowerCase()));
