@@ -1,3 +1,11 @@
+.select {
+  padding-inline-start: 0;
+}
+
+.selected {
+  background-color: #906090;
+}
+
 .option {
   display: block;
   border-bottom: 1px solid grey;

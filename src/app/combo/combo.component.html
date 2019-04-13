@@ -1,10 +1,14 @@
 <ng-container>
   <div class="col-6">
     <div class="form-group">
-      <input class="form-control" type="text" [value]="mapValueIntoObject(sportControl.value)?.description" (click)="toggleVisible()"> <!-- todo - move fn to ts -->
-      <div [ngClass]="(isOptionVisible) ? 'isVisible select' : 'isNotVisible select'" > <!-- todo - is visible ?-->
-        <span *ngFor="let item of sportsList" class="option" (click)="selectItem(item.description )">{{item.description}}</span>
-      </div>
+      <input class="form-control" type="text"
+        (click)="toggleVisible()" (keydown)="expandSelect($event)" [formControl]="selectedSport" #input > <!-- todo - move fn to ts -->
+
+      <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
+        <li *ngFor="let item of sportsListsCopy; index as i" class="option" (click)="selectItem(item.description)" (keydown)="selectDown(i)">
+          <a href="#"> {{item.description}}</a>
+        </li>
+      </ul>
     </div>
     <br />
     <input type="submit" (click)="handleSubmit()" class="btn btn-primary">
