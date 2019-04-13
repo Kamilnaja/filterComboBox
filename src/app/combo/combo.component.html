@@ -5,7 +5,7 @@
         (click)="toggleVisible()" (keydown)="expandSelect($event)" [formControl]="selectedSport" #input > <!-- todo - move fn to ts -->
 
       <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
-        <li *ngFor="let item of sportsListsCopy; index as i" class="option" (click)="selectItem(item.description)" (keydown)="selectDown(i)">
+        <li *ngFor="let item of filterModel(); index as i" class="option" (click)="selectItem(item.description)" (keydown)="selectDown(i)">
           <a href="#"> {{item.description}}</a>
         </li>
       </ul>

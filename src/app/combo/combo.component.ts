@@ -71,16 +71,14 @@ export class ComboComponent implements OnInit, OnChanges, OnDestroy {
       let tipsList = this.tips.nativeElement;
       this.renderer.addClass(tipsList.children[0], 'selected');
       console.log(`${tipsList.children[0].innerHTML} is selected`);
+    } else {
+      this.filterModel()
     }
-
-    // this.input.nativeElement.blur();
-    // tipsList.children[0].focus();
-    // todo -remove class from other elements
   }
 
-  // todo - deal with model
-  public filterModel() {
-
+  public filterModel(): DictionaryValue[] {
+    let val = this.selectedSport.value
+    return this.sportsListsCopy.filter((item: DictionaryValue) => item.description.startsWith(val))
   }
 
   public selectDown(i: number) {
