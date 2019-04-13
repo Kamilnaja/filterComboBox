@@ -1,12 +1,12 @@
 <ng-container>
   <div class="col-6">
     <div class="form-group">
-      <input class="form-control" type="text"
-        (focus)="toggleVisible(true)" (keydown)="expandSelect($event)" [formControl]="selectedSport" #input [value]="getSelectedSport.value"> <!-- todo - move fn to ts -->
-
+      <input class="form-control" type="text" (focus)="toggleVisible(true)" (keydown)="expandSelect($event)"
+        [formControl]="selectedSport" #input [value]="getSelectedSport.value">
       <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
-        <li *ngFor="let item of filterModel(); index as i" class="option" (click)="selectItem(item.description)" (keydown)="selectDown(i)">
-          <a href="#">{{item.description}}</a>
+        <li *ngFor="let item of filterModel(); index as i" class="option" (click)="selectItem(item.description)"
+           [attr.data-order]="i" [ngClass]="this.focusedIndex === i ? 'selected' : ''">
+          {{item.description}}
         </li>
       </ul>
     </div>

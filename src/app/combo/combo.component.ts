@@ -3,6 +3,11 @@ import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
 import model from './model.json';
 import { DictionaryValue } from './DictionaryValue.js';
 
+enum Direction {
+  up,
+  down,
+}
+
 @Component({
   selector: 'app-combo',
   templateUrl: './combo.component.html',
@@ -17,7 +22,7 @@ export class ComboComponent implements OnInit, OnChanges {
   private selectedItem: DictionaryValue;
   private sub;
   public isOptionVisible: boolean = false;
-  public focusedItem: number = 0;
+  public focusedIndex: number = 0;
   public myForm: FormGroup;
 
   @ViewChild('tips') tips: ElementRef;
@@ -53,29 +58,44 @@ export class ComboComponent implements OnInit, OnChanges {
   }
 
   public toggleVisible(val: boolean) {
-    val ? this.isOptionVisible = true : this.isOptionVisible = false; // todo - refactor
+    val ? this.isOptionVisible = true : this.isOptionVisible = false;
   }
   // todo - akcja, gdy klikniemy gdziekolwiek poza
   // todo - gdy zjedziemy w dół z formularza, zaznacz pierwszy item
-  // todo - gdy klikniemy w item, niech wypelni on formularz
   public expandSelect(e) {
     if (e.code === 'ArrowDown') {
-      console.log(e);
-      let tipsList = this.tips.nativeElement;
-      this.renderer.addClass(tipsList.children[0], 'selected');
-      console.log(`${tipsList.children[0].innerHTML} is selected`);
-    } else {
+      this.selectNext(Direction.down);
+    } else if (e.code === 'ArrowUp')  {
+      this.selectNext(Direction.up)
+    }
+
+    else {
       this.filterModel()
     }
+    //  todo - deal with enter
   }
 
+  private selectNext(direction: Direction) {
+    if (direction === Direction.down) {
+      this.goDown();
+    } else if (direction === Direction.up) {
+      this.goUp();
+    }
+    console.log(`focused : ${this.focusedIndex}`);
+  }
+
+  private goUp() {
+    this.focusedIndex > 0 ? this.focusedIndex-- : this.focusedIndex = 2;
+  }
+
+  private goDown() {
+    this.focusedIndex < this.sportsListsCopy.length - 1 ? this.focusedIndex++ : this.focusedIndex = 0;
+  }
+
+// todo - select on enter
   public filterModel(): DictionaryValue[] {
     let val = this.getSelectedSport.value
     return this.sportsListsCopy
       .filter((item: DictionaryValue) => item.description.toLowerCase().startsWith(val.toLowerCase()));
-  }
-
-  public selectDown(i: number) {
-    console.log(`selecting down item of ${i}`);
   }
 }
