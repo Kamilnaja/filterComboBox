@@ -49,23 +49,31 @@ export class ComboComponent implements OnInit {
     this.selectedSport.setValue(item)
   }
 
-  public toggleVisible(val: boolean) {
-    val ? this.isOptionVisible = true : this.isOptionVisible = false;
+  public handleBlur() {
+    if (this.selectedSport.valid){
+      this.isOptionVisible = false;
+    }
   }
-  // todo - action, when we click outside
+
+  public toggleVisible(val: boolean) {
+    val
+    ? this.isOptionVisible = true
+    : this.isOptionVisible = false;
+  }
+
   public handleSelectActions(e) {
     if (e.code === 'ArrowDown') {
       this.selectNext(Direction.down);
     } else if (e.code === 'ArrowUp') {
       this.selectNext(Direction.up)
     } else if (e.code === 'Enter') {
-      this.chooseItem();
+      this.selectViaEnter();
     } else if (e.code === 'Backspace' || 'Delete') {
       this.toggleVisible(true);
     }
   }
 
-  private chooseItem() {
+  private selectViaEnter() {
     this.selectItem(this.filterModel[this.focusedIndex].description);
     this.focusedIndex = 0;
   }
@@ -76,7 +84,6 @@ export class ComboComponent implements OnInit {
     } else if (direction === Direction.up) {
       this.goUp();
     }
-    this.toggleVisible(true)
   }
 
   private goUp() {
