@@ -1,12 +1,8 @@
-import { Component, OnInit, OnChanges, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
 import model from './model.json';
-import { DictionaryValue } from './DictionaryValue.js';
-
-enum Direction {
-  up,
-  down,
-}
+import { DictionaryValue } from './DictionaryValue';
+import { Direction } from './Direction';
 
 @Component({
   selector: 'app-combo',
@@ -25,10 +21,7 @@ export class ComboComponent implements OnInit, OnChanges {
   public focusedIndex: number = 0;
   public myForm: FormGroup;
 
-  @ViewChild('tips') tips: ElementRef;
-  @ViewChild('input') input: ElementRef;
-
-  constructor(private renderer: Renderer2) {
+  constructor() {
     this.sportsList = model;
   }
 
@@ -70,6 +63,8 @@ export class ComboComponent implements OnInit, OnChanges {
     } else if (e.code === 'Enter') {
       this.selectItem(this.filterModel[this.focusedIndex].description);
       this.focusedIndex = 0;
+    } else if (e.code === 'Backspace' || 'Delete') {
+      this.toggleVisible(true);
     } else {
       this.filterModel;
     }
@@ -81,6 +76,7 @@ export class ComboComponent implements OnInit, OnChanges {
     } else if (direction === Direction.up) {
       this.goUp();
     }
+    this.toggleVisible(true)
   }
 
   private goUp() {
