@@ -17,6 +17,7 @@ export class ComboComponent implements OnInit {
   public isOptionVisible: boolean = false;
   public focusedIndex: number = 0;
   public selectedSport: FormControl;
+  public longestDescription: number;
 
   constructor() {
     this.sportsList = model;
@@ -27,7 +28,8 @@ export class ComboComponent implements OnInit {
     this.selectedSport = new FormControl('', [
       Validators.required,
       this.isDictionaryValueValidator()
-    ])
+    ]);
+    this.longestDescription = Math.max(...this.sportsList.map(item => item.description.length));
   }
 
   public get getSelectedSport(): AbstractControl {
@@ -94,7 +96,7 @@ export class ComboComponent implements OnInit {
   public isDictionaryValueValidator(): ValidatorFn {
     return ((control: FormControl) => {
       const isInDictionary = this.sportsList.find(item => item.description === control.value)
-      return isInDictionary ? null : {'isInDictionary': {value: control.value} };
+      return isInDictionary ? null : { 'isInDictionary': { value: control.value } };
     })
   }
 }

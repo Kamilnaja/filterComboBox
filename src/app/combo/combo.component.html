@@ -2,7 +2,7 @@
   <div class="col-6">
     <div class="form-group">
       <input class="form-control" type="text" (focus)="toggleVisible(true)" (keydown)="handleSelectActions($event)"
-        [formControl]="selectedSport" #input [value]="getSelectedSport.value">
+        [formControl]="selectedSport" #input [value]="getSelectedSport.value" [maxLength]="longestDescription">
       <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
         <li *ngFor="let item of filterModel; index as i" class="option" (click)="selectItem(item.description)"
            [attr.data-order]="i" [ngClass]="this.focusedIndex === i ? 'selected' : ''">
