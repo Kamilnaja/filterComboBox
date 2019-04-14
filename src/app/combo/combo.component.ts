@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges, OnDestroy, ViewChild, ElementRef} from '@angular/core';
-import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnChanges, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, AbstractControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import model from './model.json';
 import { DictionaryValue } from './DictionaryValue';
 import { Direction } from './Direction';
@@ -10,16 +10,13 @@ import { Direction } from './Direction';
   styleUrls: ['./combo.component.css']
 })
 
-export class ComboComponent implements OnInit, OnChanges {
-  selectedSport = new FormControl('')
+export class ComboComponent implements OnInit {
 
   public sportsList: DictionaryValue[];
   public sportsListsCopy: DictionaryValue[];
-  private selectedItem: DictionaryValue;
-  private sub;
   public isOptionVisible: boolean = false;
   public focusedIndex: number = 0;
-  public myForm: FormGroup;
+  public selectedSport: FormControl;
 
   constructor() {
     this.sportsList = model;
@@ -27,9 +24,10 @@ export class ComboComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.sportsListsCopy = this.sportsList;
-  }
-
-  ngOnChanges(): void {
+    this.selectedSport = new FormControl('', [
+      Validators.required,
+      this.isDictionaryValueValidator()
+    ])
   }
 
   public get getSelectedSport(): AbstractControl {
@@ -40,7 +38,7 @@ export class ComboComponent implements OnInit, OnChanges {
     console.log(this.mapDescriptionToObject(this.getSelectedSport.value).value);
   }
 
-  public mapDescriptionToObject(description: string): DictionaryValue { // todo - move into service
+  private mapDescriptionToObject(description: string): DictionaryValue { // todo - move into service
     return this.sportsList.find(item => item.description === description);
   }
 
@@ -52,22 +50,22 @@ export class ComboComponent implements OnInit, OnChanges {
   public toggleVisible(val: boolean) {
     val ? this.isOptionVisible = true : this.isOptionVisible = false;
   }
-  // todo - akcja, gdy klikniemy gdziekolwiek poza
-  public expandSelect(e) {
-    console.log(e.code);
-
+  // todo - action, when we click outside
+  public handleSelectActions(e) {
     if (e.code === 'ArrowDown') {
       this.selectNext(Direction.down);
-    } else if (e.code === 'ArrowUp')  {
+    } else if (e.code === 'ArrowUp') {
       this.selectNext(Direction.up)
     } else if (e.code === 'Enter') {
-      this.selectItem(this.filterModel[this.focusedIndex].description);
-      this.focusedIndex = 0;
+      this.chooseItem();
     } else if (e.code === 'Backspace' || 'Delete') {
       this.toggleVisible(true);
-    } else {
-      this.filterModel;
     }
+  }
+
+  private chooseItem() {
+    this.selectItem(this.filterModel[this.focusedIndex].description);
+    this.focusedIndex = 0;
   }
 
   private selectNext(direction: Direction) {
@@ -91,5 +89,12 @@ export class ComboComponent implements OnInit, OnChanges {
     let val = this.getSelectedSport.value
     return this.sportsListsCopy
       .filter((item: DictionaryValue) => item.description.toLowerCase().startsWith(val.toLowerCase()));
+  }
+
+  public isDictionaryValueValidator(): ValidatorFn {
+    return ((control: FormControl) => {
+      const isInDictionary = this.sportsList.find(item => item.description === control.value)
+      return isInDictionary ? null : {'isInDictionary': {value: control.value} };
+    })
   }
 }

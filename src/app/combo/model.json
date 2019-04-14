@@ -10,5 +10,9 @@
   {
     "value": "tn",
     "description": "tenis dla dwóch osób"
+  },
+  {
+    "value": "ts",
+    "description": "tenis singiel"
   }
 ]

@@ -1,7 +1,7 @@
 <ng-container>
   <div class="col-6">
     <div class="form-group">
-      <input class="form-control" type="text" (focus)="toggleVisible(true)" (keydown)="expandSelect($event)"
+      <input class="form-control" type="text" (focus)="toggleVisible(true)" (keydown)="handleSelectActions($event)"
         [formControl]="selectedSport" #input [value]="getSelectedSport.value">
       <ul class="select" [ngClass]="(isOptionVisible) ? 'isVisible' : 'isNotVisible'" #tips>
         <li *ngFor="let item of filterModel; index as i" class="option" (click)="selectItem(item.description)"
@@ -10,6 +10,9 @@
         </li>
       </ul>
     </div>
+    <div *ngIf="getSelectedSport.valid">Valid</div>
+    <div *ngIf="getSelectedSport.invalid">invalid</div>
+
     <br />
     <input type="submit" (click)="handleSubmit()" class="btn btn-primary">
   </div>
